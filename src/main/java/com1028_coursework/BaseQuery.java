@@ -27,9 +27,11 @@ public class BaseQuery {
 		Statement statement = connect.createStatement();
 		ResultSet resultSet = statement.executeQuery(query);
 		while(resultSet.next()) {
-			double price_each = resultSet.getDouble("priceEach");
-			int order_number = resultSet.getInt("orderNumber");
-			System.out.println(order_number + "\t" + price_each);
+			int customer_number = resultSet.getInt("customerNumber");
+			String check_number = resultSet.getString("checkNumber");
+			String payment_date = resultSet.getString("paymentDate");
+			double order_amount = resultSet.getDouble("amount");
+			System.out.println(customer_number + "\t" + check_number + "\t" + payment_date + "\t" + order_amount);
 		}
 		return "";
 				
@@ -39,5 +41,6 @@ public class BaseQuery {
 		String query = "select * from products where quantityInStock > 0";
 		Statement statement = connect.createStatement();
 		ResultSet resultSet = statement.executeQuery(query);
+		
 	}
 }
