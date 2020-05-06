@@ -11,7 +11,7 @@ public class BaseQuery {
 	private final String data_base = "jdbc:mysql://localhost:3306/classicmodels";
 	
 	
-	public baseQuery111(String user, String pass){
+	public BaseQuery(String user, String pass){
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
             connect = DriverManager.getConnection( data_base, user, pass);
