@@ -23,7 +23,7 @@ public class BaseQuery {
 	
 	protected String selectPriceAbove100() throws SQLException{
 		
-		String query = "select orderNumber, priceEach from orderdetails where priceEach > 100;";
+		String query = "select * from payments where amount > 100000;";
 		Statement statement = connect.createStatement();
 		ResultSet resultSet = statement.executeQuery(query);
 		while(resultSet.next()) {
@@ -33,5 +33,11 @@ public class BaseQuery {
 		}
 		return "";
 				
+	}
+	
+	protected String selectProductNotSold() throws SQLException{
+		String query = "select * from products where quantityInStock > 0";
+		Statement statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery(query);
 	}
 }
