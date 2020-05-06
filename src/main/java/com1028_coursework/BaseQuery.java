@@ -6,13 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class baseQuery {
-	
+public class BaseQuery {
 	protected Connection connect;
 	private final String data_base = "jdbc:mysql://localhost:3306/classicmodels";
 	
 	
-	public baseQuery(String user, String pass){
+	public baseQuery111(String user, String pass){
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
             connect = DriverManager.getConnection( data_base, user, pass);
@@ -35,5 +34,4 @@ public class baseQuery {
 		return "";
 				
 	}
-
 }
