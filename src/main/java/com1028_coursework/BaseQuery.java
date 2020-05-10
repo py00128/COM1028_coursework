@@ -37,10 +37,19 @@ public class BaseQuery {
 				
 	}
 	
-	protected String selectProductNotSold() throws SQLException{
-		String query = "select * from products where quantityInStock > 0";
+	protected String selectProductNotSold() throws SQLException{//
+		String query = "SELECT P.productName "
+				+ "FROM products P "
+				+ "WHERE NOT EXISTS "
+				+ "(SELECT 1 FROM orderdetails S WHERE S.productcode = P.productcode);";
 		Statement statement = connect.createStatement();
 		ResultSet resultSet = statement.executeQuery(query);
+		while (resultSet.next()) {
+			String product_name = resultSet.getString("productName");
+			System.out.println(product_name + "\t");
+		}
+		return "";
+		
 		
 	}
 }
