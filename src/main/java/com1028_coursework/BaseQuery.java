@@ -37,7 +37,7 @@ public class BaseQuery {
 				
 	}
 	
-	protected String selectProductNotSold() throws SQLException{//
+	protected String selectProductNotSold() throws SQLException{
 		String query = "SELECT P.productName "
 				+ "FROM products P "
 				+ "WHERE NOT EXISTS "
@@ -51,5 +51,21 @@ public class BaseQuery {
 		return "";
 		
 		
+	}
+	
+	protected String selectProfitEachLine() throws SQLException{
+		String query = "SELECT SUM(buyPrice * quantityInStock) AS 'Total Cost', "
+				+ "SUM(MSRP * quantityInStock) AS 'Total Revenue', "
+				+ "SUM((MSRP * quantityInStock) - (buyPrice * quantityInStock)) AS 'Total Profit' "
+				+ "FROM products;";
+		Statement statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery(query);
+		while (resultSet.next()) {
+			double total_cost = resultSet.getDouble("Total Cost");
+			double total_revenue = resultSet.getDouble("Total Revenue");
+			double total_profit = resultSet.getDouble("Total profit");
+			System.out.println(total_cost + "\t" + total_revenue + "\t" + total_profit + "\t");
+		}
+		return "";
 	}
 }
