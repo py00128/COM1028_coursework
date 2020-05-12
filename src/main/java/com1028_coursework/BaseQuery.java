@@ -1,5 +1,6 @@
 package com1028_coursework;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -41,7 +42,7 @@ public class BaseQuery {
 		String query = "SELECT P.productName "
 				+ "FROM products P "
 				+ "WHERE NOT EXISTS "
-				+ "(SELECT 1 FROM orderdetails S WHERE S.productcode = P.productcode);";
+				+ "(SELECT * FROM orderdetails S WHERE S.productcode = P.productcode);";
 		Statement statement = connect.createStatement();
 		ResultSet resultSet = statement.executeQuery(query);
 		while (resultSet.next()) {
@@ -54,17 +55,18 @@ public class BaseQuery {
 	}
 	
 	protected String selectProfitEachLine() throws SQLException{
-		String query = "SELECT SUM(buyPrice * quantityInStock) AS 'Total Cost', "
-				+ "SUM(MSRP * quantityInStock) AS 'Total Revenue', "
+		String query = "SELECT productLine, "
+				+ "SUM(buyPrice * quantityInStock) AS 'Total Cost', SUM(MSRP * quantityInStock) AS 'Total Revenue', "
 				+ "SUM((MSRP * quantityInStock) - (buyPrice * quantityInStock)) AS 'Total Profit' "
-				+ "FROM products;";
+				+ "FROM products GROUP BY productLine;";
 		Statement statement = connect.createStatement();
 		ResultSet resultSet = statement.executeQuery(query);
 		while (resultSet.next()) {
-			double total_cost = resultSet.getDouble("Total Cost");
-			double total_revenue = resultSet.getDouble("Total Revenue");
-			double total_profit = resultSet.getDouble("Total profit");
-			System.out.println(total_cost + "\t" + total_revenue + "\t" + total_profit + "\t");
+			String product_line = resultSet.getString("productLine");
+			BigDecimal total_cost = resultSet.getBigDecimal("Total Cost");
+			BigDecimal total_revenue = resultSet.getBigDecimal("Total Revenue");
+			BigDecimal total_profit = resultSet.getBigDecimal("Total profit");
+			System.out.println(product_line + "\t" + total_cost + "\t" + total_revenue + "\t" + total_profit + "\t");
 		}
 		return "";
 	}
