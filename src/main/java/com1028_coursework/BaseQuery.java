@@ -6,6 +6,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 
@@ -24,54 +27,91 @@ public class BaseQuery {
         }
     }
 	
-	
-	
-	protected String selectPaymentAbove100000() throws SQLException{
+	public List<Products> getProducts(){
+		ArrayList<Products> products = new ArrayList<Products>();
+		try {
+			String query = "SELECT * FROM products";
+			
+			Statement statement = connect.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			
+			while(resultSet.next()) {
 				
-		String query = "select * from payments where amount > 100000;";
-		Statement statement = connect.createStatement();
-		ResultSet resultSet = statement.executeQuery(query);
-		while(resultSet.next()) {
-			int customer_number = resultSet.getInt("customerNumber");
-			String check_number = resultSet.getString("checkNumber");
-			String payment_date = resultSet.getString("paymentDate");
-			double order_amount = resultSet.getDouble("amount");
-			System.out.println(customer_number + "\t" + check_number + "\t" + payment_date + "\t" + order_amount);
-		}
-		return "";
+				String product_code = resultSet.getString("productCode");
+				String product_name = resultSet.getString("productName");
+				String product_line = resultSet.getString("productLine");
+				int quantity_in_stock = resultSet.getInt("quantityInStock");
+				double buy_price = resultSet.getDouble("buyPrice");
+				double msrp = resultSet.getDouble("MSRP");	
 				
-	}
-	
-	protected String selectProductNotSold() throws SQLException{
-		String query = "SELECT P.productName "
-				+ "FROM products P "
-				+ "WHERE NOT EXISTS "
-				+ "(SELECT * FROM orderdetails S WHERE S.productcode = P.productcode);";
-		Statement statement = connect.createStatement();
-		ResultSet resultSet = statement.executeQuery(query);
-		while (resultSet.next()) {
-			String product_name = resultSet.getString("productName");
-			System.out.println(product_name + "\t");
+				products.add(new Products(product_code, product_name,product_line, quantity_in_stock, buy_price, msrp));
+			}
+
 		}
-		return "";
-		
+		catch (SQLException e) {
+			System.out.println("SQL exception");
+			throw new RuntimeException(e);
+		}
+		return products;
 		
 	}
 	
-	protected String selectProfitEachLine() throws SQLException{
-		String query = "SELECT productLine, "
-				+ "SUM(buyPrice * quantityInStock) AS 'Total Cost', SUM(MSRP * quantityInStock) AS 'Total Revenue', "
-				+ "SUM((MSRP * quantityInStock) - (buyPrice * quantityInStock)) AS 'Total Profit' "
-				+ "FROM products GROUP BY productLine;";
-		Statement statement = connect.createStatement();
-		ResultSet resultSet = statement.executeQuery(query);
-		while (resultSet.next()) {
-			String product_line = resultSet.getString("productLine");
-			BigDecimal total_cost = resultSet.getBigDecimal("Total Cost");
-			BigDecimal total_revenue = resultSet.getBigDecimal("Total Revenue");
-			BigDecimal total_profit = resultSet.getBigDecimal("Total profit");
-			System.out.println(product_line + "\t" + total_cost + "\t" + total_revenue + "\t" + total_profit + "\t");
+	public List<Payments> getPayments(){
+		ArrayList<Payments> payments = new ArrayList<Payments>();
+		try {
+			String query = "SELECT * FROM payments";
+			
+			Statement statement = connect.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			
+			while(resultSet.next()) {
+				
+				int customer_number = resultSet.getInt("customerNumber");
+				String check_number = resultSet.getString("checkNumber");
+				Date payment_date = resultSet.getDate("paymentDate");
+				double amount = resultSet.getDouble("amount");
+				
+				payments.add(new Payments(customer_number, check_number, payment_date, amount));
+		
+			}
+
 		}
-		return "";
+		catch (SQLException e) {
+			System.out.println("SQL exception");
+			throw new RuntimeException(e);
+		}
+		return payments;
+		
 	}
+	
+	public List<Orderdetails> getOrderdetails(){
+		ArrayList<Orderdetails> orderdetails = new ArrayList<Orderdetails>();
+		try {
+			String query = "SELECT * FROM orderdetails";
+			
+			Statement statement = connect.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			
+			while(resultSet.next()) {
+				
+				String product_code = resultSet.getString("productCode");
+				int quantity_ordered = resultSet.getInt("quantityOrdered");
+				double price_each = resultSet.getDouble("priceEach");
+				
+				orderdetails.add(new Orderdetails(product_code, quantity_ordered, price_each));
+		
+			}
+
+		}
+		catch (SQLException e) {
+			System.out.println("SQL exception");
+			throw new RuntimeException(e);
+		}
+		return orderdetails;
+		
+	}
+	
 }
