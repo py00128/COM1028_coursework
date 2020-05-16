@@ -29,6 +29,10 @@ public class Products {
 		return this.productName;
 	}
 	
+	public String getProductLine() {
+		return this.productLine;
+	}
+	
 	public double getBuyPrice() {
 		return this.buyPrice;
 	}

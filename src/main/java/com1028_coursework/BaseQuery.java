@@ -1,6 +1,5 @@
 package com1028_coursework;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,12 +14,14 @@ import java.util.List;
 public class BaseQuery {
 	protected Connection connect;
 	private final String data_base = "jdbc:mysql://localhost:3306/classicmodels";
+	private String user = "root";
+	private String password = "Parsa80";
 	
 	
-	public BaseQuery(String user, String pass) {
+	public BaseQuery() {
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
-            connect = DriverManager.getConnection( data_base, user, pass);
+            connect = DriverManager.getConnection( data_base, user, password);
         }
         catch(Exception e) {
             System.out.println(e);
@@ -111,6 +112,32 @@ public class BaseQuery {
 			throw new RuntimeException(e);
 		}
 		return orderdetails;
+		
+	}
+	
+	public List<ProductLine> getProductLine(){
+		ArrayList<ProductLine> productLine = new ArrayList<ProductLine>();
+		try {
+			String query = "SELECT * FROM productLines";
+			
+			Statement statement = connect.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(query);
+			
+			while(resultSet.next()) {
+				
+				String product_line = resultSet.getString("productLine");
+							
+				productLine.add(new ProductLine(product_line));
+		
+			}
+
+		}
+		catch (SQLException e) {
+			System.out.println("SQL exception");
+			throw new RuntimeException(e);
+		}
+		return productLine;
 		
 	}
 	

@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class Payments {
 	
-	private int customerNumber;
-	private String checkNumber;
+	private int customerNumber = 0;
+	private String checkNumber = null;
 	private Date paymentDate;
-	private double amount;
+	private double amount = 0;
 	
 	
 	public Payments(int customerNumber, String checkNumber, Date paymentDate, double amount) {

@@ -4,13 +4,22 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.security.auth.login.FailedLoginException;
 
 import org.junit.Test;
 
 public class Testing {
+	
+	protected Connection connect;
+	private final String data_base = "jdbc:mysql://localhost:3306/classicmodels";
+	private String user = "root";
+	private String password = "Parsa80";
 	
 	@Test 
 	public void wrongUsername() throws FailedLoginException{
@@ -33,13 +42,26 @@ public class Testing {
 	public void testAbove100000() throws SQLException{
 		final ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(stream));
-		BaseQuery db = new BaseQuery ("root", "Parsa80");
-		db.selectPaymentAbove100000();
-		assertEquals("124	AE215433	2005-03-05	101244.59\r\n" + 
-				"124	KI131716	2003-08-15	111654.4\r\n" + 
-				"141	ID10962	2004-12-31	116208.4\r\n" + 
-				"141	JE105477	2005-03-18	120166.58\r\n" + 
-				"148	KM172879	2003-12-26	105743.0 " + "", stream.toString());
+		Main db = new Main();
+		db.s1();
+		try {
+            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
+            connect = DriverManager.getConnection( data_base, user, password);
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
+		String query = "SELECT customerNumber, amount FROM payments WHERE amount > 100000;";
+		Statement statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery(query);
+		String results = "";
+		while(resultSet.next()) {
+			int customer_number = resultSet.getInt("customerNumber");
+			double order_amount = resultSet.getDouble("amount");
+			results = results + "Customer number: " + customer_number + "\t" + "Amount: " + order_amount + "\n";
+		}
+		
+		assertEquals(results, stream.toString());
 	}
 	
 	@Test
