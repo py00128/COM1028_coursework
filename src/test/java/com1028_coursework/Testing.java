@@ -42,7 +42,7 @@ public class Testing {
 	public void testAbove100000() throws SQLException{
 		final ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(stream));
-		Main db = new Main();
+		Requirement1 db = new Requirement1();
 		db.s1();
 		try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());

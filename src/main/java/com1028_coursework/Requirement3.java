@@ -2,7 +2,7 @@ package com1028_coursework;
 
 import java.util.List;
 
-public class MainThird {
+public class Requirement3 {
 
 	public static void main(String[] args) throws Exception{
 		
@@ -19,7 +19,6 @@ public class MainThird {
 		for (ProductLine prodline : productLine) {
 			for(Products prod : products) {
 				if(prodline.getProductLine().equals(prod.getProductLine())) {
-					int count = 0;
 					double profit = 0;
 					for(Orderdetails order : orderdetails) {
 						if(order.getProductCode().equals(prod.getProductCode())) {

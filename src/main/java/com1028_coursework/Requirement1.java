@@ -2,7 +2,7 @@ package com1028_coursework;
 
 import java.util.List;
 
-public class Main {
+public class Requirement1 {
 
 	public static void main(String[] args) throws Exception {
 		
