@@ -11,7 +11,7 @@ public class Requirement3 {
 	}
 	
 	public static String s3() {
-		BaseQuery bq = new BaseQuery();
+		BaseQuery bq = new BaseQuery("root", "Parsa80");
 		List<ProductLine> productLine = bq.getProductLine();
 		List<Products> products = bq.getProducts();
 		List<Orderdetails> orderdetails = bq.getOrderdetails();
@@ -19,7 +19,7 @@ public class Requirement3 {
 		for (ProductLine prodline : productLine) {
 			for(Products prod : products) {
 				if(prodline.getProductLine().equals(prod.getProductLine())) {
-					double profit = 0;
+					double profit = 0.00;
 					for(Orderdetails order : orderdetails) {
 						if(order.getProductCode().equals(prod.getProductCode())) {
 							profit = profit + (order.getQuantityOrdered()*(order.getPriceEach() - prod.getBuyPrice())); 

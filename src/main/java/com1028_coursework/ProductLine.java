@@ -3,7 +3,7 @@ package com1028_coursework;
 public class ProductLine {
 	
 	private String productLine = null;
-	private double profit = 0;
+	private double profit = 0.00;
 
 	public ProductLine(String productLine) {
 		super();

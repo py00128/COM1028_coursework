@@ -10,7 +10,7 @@ public class Requirement1 {
 		
 	}
 	public static String s1() {
-		BaseQuery dao = new BaseQuery();
+		BaseQuery dao = new BaseQuery("root", "Parsa80");
 		
 		List<Payments> payments = dao.getPayments();
 		
@@ -18,7 +18,7 @@ public class Requirement1 {
 		for (Payments paym : payments) {			
 			if(paym.getAmount() > 100000) {
 				System.out.print("Customer number: " + paym.getCustomerNumber() + "\t" + "Amount: " + paym.getAmount() + "\n");
-				results = results + "Customer number: " + paym.getCustomerNumber() + "Amount: " + paym.getAmount() + "\n";
+				//results = results + "Customer number: " + paym.getCustomerNumber() + "Amount: " + paym.getAmount() + "\n";
 				}
 			
 		}

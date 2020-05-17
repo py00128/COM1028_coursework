@@ -10,13 +10,14 @@ public class Requirement2 {
 	}
 	
 	public static String s2() {
-		BaseQuery dao = new BaseQuery();
+		BaseQuery dao = new BaseQuery("root", "Parsa80");
 		List<Products> products = dao.getProducts();
 		List<Orderdetails> orderdetails = dao.getOrderdetails();
 		
-		
+
 		for (Products prod : products) {
 			int count = 0;
+			
 			for (Orderdetails order : orderdetails) {
 				
 				if(prod.getProductCode().equals(order.getProductCode())) {
@@ -25,7 +26,8 @@ public class Requirement2 {
 				}
 			}
 			if(count == 0) {
-				System.out.println("Product Name: " + prod.getProductName() + "\n");
+				System.out.println("Product Name: " + prod.getProductName());
+				
 			}
 		}
 		return "";

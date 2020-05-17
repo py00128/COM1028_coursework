@@ -68,24 +68,50 @@ public class Testing {
 	public void productNotSold() throws SQLException{
 		final ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(stream));
-		BaseQuery db = new BaseQuery ("root", "Parsa80");
-		db.selectProductNotSold();
-		assertEquals("1985 Toyota Supra" + "\t", stream.toString());
+		Requirement2 db = new Requirement2();
+		db.s2();
+		try {
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
+            connect = DriverManager.getConnection( data_base, user, password);
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		String query = "SELECT P.productName FROM products P WHERE NOT EXISTS (SELECT productName FROM orderdetails S WHERE S.productcode = P.productcode);";
+		Statement statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery(query);
+		String results = "";
+		while(resultSet.next()) {
+			String product_name = resultSet.getString("productName");
+			results = results + "Product Name: " + product_name;
+		}
+		
+		assertEquals(results, stream.toString());
 	}
 	
 	@Test
 	public void profitProductLine() throws SQLException{
 		final ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(stream));
-		BaseQuery db = new BaseQuery("root", "Parsa80");
-		db.selectProfitEachLine();
-		assertEquals("Classic Cars	14059337.71	25631556.38	11572218.67	\r\n" + 
-				"Motorcycles	3565714.18	6919282.43	3353568.25	\r\n" + 
-				"Planes	3099282.76	5670231.92	2570949.16	\r\n" + 
-				"Ships	1239140.43	2342604.92	1103464.49	\r\n" + 
-				"Trains	727251.77	1281248.24	553996.47	\r\n" + 
-				"Trucks and Buses	2139329.56	3875532.70	1736203.14	\r\n" + 
-				"Vintage Cars	5704259.82	10567510.68	4863250.86	", stream.toString());
+		Requirement3 db = new Requirement3();
+		db.s3();
+		try {
+			DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
+            connect = DriverManager.getConnection( data_base, user, password);
+		}
+		catch(Exception e){
+            System.out.println(e);
+		}
+		String query = "SELECT products.productLine, SUM(orderdetails.quantityOrdered*(orderdetails.priceEach-products.buyPrice)) AS 'Profit'  FROM orderdetails INNER JOIN products ON orderdetails.productCode=products.productCode GROUP BY products.productLine;";
+		Statement statement = connect.createStatement();
+		ResultSet resultSet = statement.executeQuery(query);
+		String results = "";
+		while(resultSet.next()) {
+			String product_line = resultSet.getString("productLine");
+			double profit = resultSet.getDouble("Profit");
+			results = results + "Product Line: " + product_line + "\t" + "Profit: " + profit + "\n";
+		}
+		assertEquals(results, stream.toString());
 	}
 
 }
