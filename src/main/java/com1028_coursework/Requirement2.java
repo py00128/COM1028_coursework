@@ -26,7 +26,7 @@ public class Requirement2 {
 				}
 			}
 			if(count == 0) {
-				System.out.println("Product Name: " + prod.getProductName());
+				System.out.print("Product Name: " + prod.getProductName());
 				
 			}
 		}

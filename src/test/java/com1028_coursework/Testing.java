@@ -102,14 +102,14 @@ public class Testing {
 		catch(Exception e){
             System.out.println(e);
 		}
-		String query = "SELECT products.productLine, SUM(orderdetails.quantityOrdered*(orderdetails.priceEach-products.buyPrice)) AS 'Profit'  FROM orderdetails INNER JOIN products ON orderdetails.productCode=products.productCode GROUP BY products.productLine;";
+		String query = "SELECT products.productLine, SUM(orderdetails.quantityOrdered*(orderdetails.priceEach-products.buyPrice)) AS 'Profit'  FROM orderdetails INNER JOIN products ON orderdetails.productCode=products.productCode GROUP BY products.productLine ORDER BY Profit DESC;";
 		Statement statement = connect.createStatement();
 		ResultSet resultSet = statement.executeQuery(query);
 		String results = "";
 		while(resultSet.next()) {
 			String product_line = resultSet.getString("productLine");
 			double profit = resultSet.getDouble("Profit");
-			results = results + "Product Line: " + product_line + "\t" + "Profit: " + profit + "\n";
+			results =results + "Product Line: " + product_line + "\t" + "Profit: " + profit+ "\n";
 		}
 		assertEquals(results, stream.toString());
 	}

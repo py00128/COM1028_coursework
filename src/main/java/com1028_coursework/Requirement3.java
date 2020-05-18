@@ -1,5 +1,6 @@
 package com1028_coursework;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class Requirement3 {
@@ -30,7 +31,7 @@ public class Requirement3 {
 			
 				}
 			}
-		System.out.println("Product Line: " + prodline.getProductLine() + "\t" + "Profit: " + prodline.getProfit());	
+		System.out.printf("Product Line: " + prodline.getProductLine() + "\t" + "Profit: %.2f" + "\n", prodline.getProfit());	
 		
 		}
 		return "";
