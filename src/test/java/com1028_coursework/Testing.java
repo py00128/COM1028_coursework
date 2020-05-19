@@ -19,11 +19,11 @@ public class Testing {
 	protected Connection connect;
 	private final String data_base = "jdbc:mysql://localhost:3306/classicmodels";
 	private String user = "root";
-	private String password = "Parsa80";
+	private String password = "";
 	
 	@Test 
 	public void wrongUsername() throws FailedLoginException{
-		BaseQuery query = new BaseQuery ("software", "Parsa80");
+		BaseQuery query = new BaseQuery ("software", "");
 	}
 	
 	@Test 
@@ -34,7 +34,7 @@ public class Testing {
 	
 	@Test
 	public void dbconnect() throws FailedLoginException{
-		BaseQuery db = new BaseQuery ("root", "Parsa80");
+		BaseQuery db = new BaseQuery ("root", "");
 		
 	}
 	

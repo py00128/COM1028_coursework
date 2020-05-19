@@ -15,7 +15,7 @@ public class BaseQuery {
 	protected Connection connect;
 	private final String data_base = "jdbc:mysql://localhost:3306/classicmodels";
 	private String user = "root";
-	private String password = "Parsa80";
+	private String password = "";
 	
 	
 	public BaseQuery(String user, String password) {
