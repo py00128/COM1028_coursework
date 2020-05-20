@@ -10,7 +10,7 @@ public class Requirement1 {
 		
 	}
 	public static String s1() {
-		BaseQuery dao = new BaseQuery("root", "");
+		BaseQuery dao = new BaseQuery();
 		
 		List<Payments> payments = dao.getPayments();
 		

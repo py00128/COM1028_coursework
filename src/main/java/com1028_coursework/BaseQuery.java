@@ -18,7 +18,7 @@ public class BaseQuery {
 	private String password = "";
 	
 	
-	public BaseQuery(String user, String password) {
+	public BaseQuery() {
         try {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver ());
             connect = DriverManager.getConnection( data_base, user, password);

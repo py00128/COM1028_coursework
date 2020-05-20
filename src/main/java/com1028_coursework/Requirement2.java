@@ -10,7 +10,7 @@ public class Requirement2 {
 	}
 	
 	public static String s2() {
-		BaseQuery dao = new BaseQuery("root", "");
+		BaseQuery dao = new BaseQuery();
 		List<Products> products = dao.getProducts();
 		List<Orderdetails> orderdetails = dao.getOrderdetails();
 		

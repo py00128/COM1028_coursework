@@ -14,7 +14,7 @@ public class Requirement3 {
 	}
 	
 	public static String s3() {
-		BaseQuery bq = new BaseQuery("root", "");
+		BaseQuery bq = new BaseQuery();
 		List<ProductLine> productLine = bq.getProductLine();
 		List<Products> products = bq.getProducts();
 		List<Orderdetails> orderdetails = bq.getOrderdetails();
