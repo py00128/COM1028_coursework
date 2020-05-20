@@ -21,22 +21,6 @@ public class Testing {
 	private String user = "root";
 	private String password = "";
 	
-	@Test 
-	public void wrongUsername() throws FailedLoginException{
-		BaseQuery query = new BaseQuery ("software", "");
-	}
-	
-	@Test 
-	public void wrongPass() throws FailedLoginException {
-		BaseQuery query = new BaseQuery ("root", "password");
-	}
-	
-	
-	@Test
-	public void dbconnect() throws FailedLoginException{
-		BaseQuery db = new BaseQuery ("root", "");
-		
-	}
 	
 	@Test
 	public void testAbove100000() throws SQLException{
